@@ -1,0 +1,41 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="aluminumGrad3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E0E0E0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#B8B8B8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A0A0A0;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="200" fill="#F5F7FA"/>
+  
+  <!-- Aluminum Profile 3 - Rectangular tube -->
+  <g transform="translate(60,50)">
+    <!-- Outer rectangle -->
+    <rect x="0" y="0" width="100" height="60" 
+          fill="url(#aluminumGrad3)" 
+          stroke="#909090" 
+          stroke-width="2"/>
+    
+    <!-- Inner rectangle (hollow) -->
+    <rect x="10" y="10" width="80" height="40" 
+          fill="#F5F7FA" 
+          stroke="#909090" 
+          stroke-width="1"/>
+    
+    <!-- Corner reinforcements -->
+    <circle cx="10" cy="10" r="2" fill="#A0A0A0"/>
+    <circle cx="90" cy="10" r="2" fill="#A0A0A0"/>
+    <circle cx="10" cy="50" r="2" fill="#A0A0A0"/>
+    <circle cx="90" cy="50" r="2" fill="#A0A0A0"/>
+    
+    <!-- Text label -->
+    <text x="110" y="35" font-family="Arial" font-size="12" fill="#333">
+      لوله مربعی
+    </text>
+    <text x="110" y="50" font-family="Arial" font-size="10" fill="#666">
+      آلومینیوم صنعتی
+    </text>
+  </g>
+</svg>
