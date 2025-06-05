@@ -1,0 +1,69 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="aluminumGrad8" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F0F0F0;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C8C8C8;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B0B0B0;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="scrapPattern" patternUnits="userSpaceOnUse" width="10" height="10">
+      <rect width="10" height="10" fill="#E0E0E0"/>
+      <circle cx="2" cy="2" r="1" fill="#A0A0A0"/>
+      <circle cx="8" cy="8" r="1" fill="#A0A0A0"/>
+      <circle cx="2" cy="8" r="0.5" fill="#A0A0A0"/>
+      <circle cx="8" cy="2" r="0.5" fill="#A0A0A0"/>
+    </pattern>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="200" fill="#F5F7FA"/>
+  
+  <!-- Aluminum Scrap/Waste -->
+  <g transform="translate(40,30)">
+    <!-- Various scrap pieces -->
+    <!-- Piece 1 -->
+    <polygon points="10,20 30,15 45,25 35,45 15,40" 
+             fill="url(#aluminumGrad8)" 
+             stroke="#909090" 
+             stroke-width="1"/>
+    
+    <!-- Piece 2 -->
+    <polygon points="50,30 75,25 80,45 65,55 45,50" 
+             fill="url(#aluminumGrad8)" 
+             stroke="#909090" 
+             stroke-width="1"/>
+    
+    <!-- Piece 3 -->
+    <polygon points="85,15 110,20 115,35 100,40 90,30" 
+             fill="url(#aluminumGrad8)" 
+             stroke="#909090" 
+             stroke-width="1"/>
+    
+    <!-- Piece 4 -->
+    <polygon points="20,60 40,55 50,70 45,85 25,80" 
+             fill="url(#aluminumGrad8)" 
+             stroke="#909090" 
+             stroke-width="1"/>
+    
+    <!-- Piece 5 -->
+    <polygon points="60,65 85,60 90,80 75,90 55,85" 
+             fill="url(#aluminumGrad8)" 
+             stroke="#909090" 
+             stroke-width="1"/>
+    
+    <!-- Small fragments -->
+    <circle cx="95" cy="50" r="4" fill="url(#aluminumGrad8)" stroke="#909090" stroke-width="0.5"/>
+    <circle cx="15" cy="70" r="3" fill="url(#aluminumGrad8)" stroke="#909090" stroke-width="0.5"/>
+    <circle cx="105" cy="75" r="2.5" fill="url(#aluminumGrad8)" stroke="#909090" stroke-width="0.5"/>
+    
+    <!-- Text label -->
+    <text x="130" y="50" font-family="Arial" font-size="12" fill="#333">
+      ضایعات آلومینیوم
+    </text>
+    <text x="130" y="65" font-family="Arial" font-size="10" fill="#666">
+      خرید و فروش
+    </text>
+    <text x="130" y="80" font-family="Arial" font-size="10" fill="#666">
+      بازیافت آلومینیوم
+    </text>
+  </g>
+</svg>
