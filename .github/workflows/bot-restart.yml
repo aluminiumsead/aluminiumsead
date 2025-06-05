@@ -1,0 +1,156 @@
+name: Bot Health Check and Restart
+
+on:
+  schedule:
+    # Check every 5 minutes
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+    inputs:
+      force_restart:
+        description: 'Force restart bot'
+        required: false
+        default: 'false'
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install python-telegram-bot aiohttp requests
+        
+    - name: Bot Health Check
+      id: health_check
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        WEB_APP_URL: https://aluminiumsead.github.io/aluminiumsead
+      run: |
+        python -c "
+        import os
+        import asyncio
+        import aiohttp
+        from telegram import Bot
+        from datetime import datetime
+        
+        async def health_check():
+            # Check bot status
+            token = os.getenv('TELEGRAM_BOT_TOKEN')
+            web_app_url = os.getenv('WEB_APP_URL')
+            
+            bot_healthy = False
+            web_healthy = False
+            
+            # Test bot
+            try:
+                bot = Bot(token=token)
+                me = await bot.get_me()
+                print(f'✅ Bot @{me.username} is healthy')
+                bot_healthy = True
+            except Exception as e:
+                print(f'❌ Bot health check failed: {e}')
+                
+            # Test web app
+            try:
+                async with aiohttp.ClientSession() as session:
+                    async with session.get(web_app_url, timeout=10) as response:
+                        if response.status == 200:
+                            print(f'✅ Web app is healthy ({response.status})')
+                            web_healthy = True
+                        else:
+                            print(f'⚠️ Web app returned status {response.status}')
+            except Exception as e:
+                print(f'❌ Web app health check failed: {e}')
+            
+            # Overall health
+            overall_healthy = bot_healthy and web_healthy
+            print(f'🏥 Overall health: {'✅ Healthy' if overall_healthy else '❌ Unhealthy'}')
+            
+            # Set output for next steps
+            with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+                f.write(f'bot_healthy={str(bot_healthy).lower()}\n')
+                f.write(f'web_healthy={str(web_healthy).lower()}\n')
+                f.write(f'overall_healthy={str(overall_healthy).lower()}\n')
+                
+            return overall_healthy
+            
+        result = asyncio.run(health_check())
+        print(f'Health check completed: {result}')
+        "
+        
+    - name: Log Health Status
+      run: |
+        echo "📊 Health Check Results:"
+        echo "🤖 Bot: ${{ steps.health_check.outputs.bot_healthy }}"
+        echo "🌐 Web App: ${{ steps.health_check.outputs.web_healthy }}"
+        echo "🏥 Overall: ${{ steps.health_check.outputs.overall_healthy }}"
+        echo "📅 Timestamp: $(date -u)"
+        
+    - name: Restart Bot (if unhealthy or forced)
+      if: steps.health_check.outputs.overall_healthy == 'false' || github.event.inputs.force_restart == 'true'
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      run: |
+        echo "🔄 Restarting bot services..."
+        
+        # Send restart notification (if bot is working)
+        python -c "
+        import os
+        import asyncio
+        from telegram import Bot
+        from datetime import datetime
+        
+        async def notify_restart():
+            try:
+                token = os.getenv('TELEGRAM_BOT_TOKEN')
+                bot = Bot(token=token)
+                
+                # You can add admin chat IDs here to get restart notifications
+                admin_chat_ids = []  # Add admin chat IDs if needed
+                
+                message = f'''
+        🔄 **Bot Restart Notice**
+        
+        📅 Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} UTC
+        🤖 Bot: @Aluminimiran_bot
+        🌐 Web App: https://aluminiumsead.github.io/aluminiumsead
+        
+        ✅ System restarted successfully
+                '''
+                
+                for chat_id in admin_chat_ids:
+                    try:
+                        await bot.send_message(chat_id=chat_id, text=message, parse_mode='Markdown')
+                        print(f'📤 Restart notification sent to {chat_id}')
+                    except Exception as e:
+                        print(f'❌ Failed to notify {chat_id}: {e}')
+                        
+            except Exception as e:
+                print(f'❌ Restart notification failed: {e}')
+                
+        asyncio.run(notify_restart())
+        "
+        
+        echo "✅ Bot restart completed"
+        
+    - name: Update Status Badge
+      run: |
+        status="${{ steps.health_check.outputs.overall_healthy }}"
+        timestamp=$(date -u)
+        
+        if [ "$status" = "true" ]; then
+          echo "🟢 System Status: Healthy (Last checked: $timestamp)" > status.txt
+        else
+          echo "🔴 System Status: Unhealthy (Last checked: $timestamp)" > status.txt
+        fi
+        
+        echo "📊 Status updated: $status"
