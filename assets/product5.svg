@@ -1,0 +1,39 @@
+<svg width="300" height="200" viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="aluminumGrad5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ECECEC;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#C4C4C4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ACACAC;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="300" height="200" fill="#F5F7FA"/>
+  
+  <!-- Aluminum Profile 5 - Round tube -->
+  <g transform="translate(70,50)">
+    <!-- Outer circle -->
+    <circle cx="50" cy="50" r="40" 
+            fill="url(#aluminumGrad5)" 
+            stroke="#909090" 
+            stroke-width="2"/>
+    
+    <!-- Inner circle (hollow) -->
+    <circle cx="50" cy="50" r="30" 
+            fill="#F5F7FA" 
+            stroke="#909090" 
+            stroke-width="1"/>
+    
+    <!-- Surface texture -->
+    <circle cx="50" cy="50" r="35" fill="none" stroke="#D0D0D0" stroke-width="0.5"/>
+    <circle cx="50" cy="50" r="25" fill="none" stroke="#D0D0D0" stroke-width="0.5"/>
+    
+    <!-- Text label -->
+    <text x="100" y="55" font-family="Arial" font-size="12" fill="#333">
+      لوله گرد
+    </text>
+    <text x="100" y="70" font-family="Arial" font-size="10" fill="#666">
+      آلومینیوم آنادایز
+    </text>
+  </g>
+</svg>
